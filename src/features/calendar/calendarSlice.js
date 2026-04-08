@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 
-const savedNotes = localStorage.getItem("notes") || "";
+const savedNotes = JSON.parse(localStorage.getItem("notes")) || {};
 
 const initialState = {
   current: dayjs(),
-  startDate: null,
+  startDate: dayjs(),
   endDate: null,
-  notes: savedNotes,
+  notes: savedNotes, // ✅ now object
 };
 
 const calendarSlice = createSlice({
@@ -21,10 +21,18 @@ const calendarSlice = createSlice({
     setEndDate: (state, action) => {
       state.endDate = action.payload;
     },
+
+    // ✅ notes per date
     setNotes: (state, action) => {
-      state.notes = action.payload;
-      localStorage.setItem("notes", action.payload);
+      const { date, text } = action.payload;
+      if (text) {
+        state.notes[date] = text;
+      } else {
+        delete state.notes[date]; // remove if empty
+      }
+      localStorage.setItem("notes", JSON.stringify(state.notes));
     },
+
     changeMonth: (state, action) => {
       state.current = state.current.add(action.payload, "month");
     },
@@ -41,4 +49,5 @@ export const {
   changeMonth,
   changeYear
 } = calendarSlice.actions;
+
 export default calendarSlice.reducer;

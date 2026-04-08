@@ -70,4 +70,4 @@ Follow these steps to run the project locally:
 
 Runs the app in the development mode : Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-Deploment link : 
+Deploment link : https://calender-one-sable.vercel.app/

@@ -7,7 +7,7 @@ const initialState = {
   current: dayjs(),
   startDate: dayjs(),
   endDate: null,
-  notes: savedNotes, // ✅ now object
+  notes: savedNotes,
 };
 
 const calendarSlice = createSlice({
@@ -22,13 +22,12 @@ const calendarSlice = createSlice({
       state.endDate = action.payload;
     },
 
-    // ✅ notes per date
     setNotes: (state, action) => {
       const { date, text } = action.payload;
       if (text) {
         state.notes[date] = text;
       } else {
-        delete state.notes[date]; // remove if empty
+        delete state.notes[date];
       }
       localStorage.setItem("notes", JSON.stringify(state.notes));
     },
